@@ -17,6 +17,7 @@ export type PlantsProps = {
   name: string;
   picture: string;
   description: string;
+  buyerPlant: string;
 }
 
 export const ListPlants: React.FC<ListPlantsProps> = memo(
@@ -35,7 +36,11 @@ export const ListPlants: React.FC<ListPlantsProps> = memo(
           <Typography style={{color: colors.text}}>{plant.description}</Typography>
         </CardContent>
         <CardActions>
+          {plant.buyerPlant === '0x0000000000000000000000000000000000000000' ? 
           <Button size="large">BUY</Button>
+          :
+          <Typography style={{color: colors.error, padding: 10, }}>{plant.buyerPlant}</Typography>
+          }
         </CardActions>
      </Card>
     </Grid>
