@@ -5,7 +5,7 @@ export const colors = {
   secondary: '#9871F5',
   secondaryLigth: '#8257E5',
   text: '#6A6180',
-  error: '#D94423', 
+  error: '#D94423',
 };
 
 export default colors;

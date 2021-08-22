@@ -1,8 +1,9 @@
 import { DefaultTheme } from 'styled-components';
+
 import { colors } from './colors';
 
 const basicTheme: DefaultTheme = {
-    colors: colors,
+  colors: colors,
 };
 
 export { basicTheme };
