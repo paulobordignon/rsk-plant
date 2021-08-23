@@ -28,7 +28,11 @@ export const ListPlants: React.FC<ListPlantsProps> = memo(({ plant }) => {
       <Card style={{ maxWidth: 345 }}>
         <CardMedia
           component="img"
-          image={require(`../../database/${plant.picture}`).default}
+          image={
+            plant.picture
+              ? require(`../../database/${plant.picture}`).default
+              : ''
+          }
           title={plant.name}
           height="200"
         />

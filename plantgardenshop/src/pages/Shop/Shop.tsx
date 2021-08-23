@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 
 import Web3 from 'web3';
 import Web3Modal from 'web3modal';
@@ -35,10 +35,11 @@ export const Shop: React.FC = memo(() => {
     return false;
   };
 
-  const plantsWithBuyers = plants as any;
+  const [plantsWithBuyers, setPlantsWithBuyers] = useState([plants]) as any;
 
   useEffect(() => {
     let i = 0;
+    const itensCopy = plants as any;
     contract.methods
       .getBuyers()
       .call()
@@ -46,22 +47,20 @@ export const Shop: React.FC = memo(() => {
         await buyers.map((buyer: any) => {
           const descriptor = Object.create(null);
           descriptor.value = buyer;
-          Object.defineProperty(plantsWithBuyers[i], 'buyerPlant', descriptor);
+          Object.defineProperty(itensCopy[i], 'buyerPlant', descriptor);
           i++;
           return true;
         });
+        setPlantsWithBuyers(itensCopy);
       })
       .catch(function (err: any) {
         console.log('error:', err);
       });
-  }, [plantsWithBuyers, contract]);
+  }, []);
 
   const renderPlants = useCallback(
-    () =>
-      plantsWithBuyers.map((plant: any) => (
-        <ListPlants key={plant.id} plant={plant} />
-      )),
-    [plantsWithBuyers]
+    a => a.map((plant: any) => <ListPlants key={plant.id} plant={plant} />),
+    []
   );
 
   return (
@@ -79,7 +78,7 @@ export const Shop: React.FC = memo(() => {
         <Button onClick={ethEnabled}> Login </Button>
       </Box>
       <Grid container spacing={4}>
-        {renderPlants()}
+        {renderPlants(plantsWithBuyers)}
       </Grid>
     </>
   );
