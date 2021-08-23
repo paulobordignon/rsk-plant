@@ -16,7 +16,7 @@ export const Shop: React.FC = memo(() => {
 
   const web3 = new Web3(window.web3.currentProvider);
 
-  const accounts = web3.eth.getAccounts();
+  const [account, setAccount] = useState('');
 
   const contractAdress = '0xB2f1A805F00fd9BCF7C7dE8a29C08fE3081595d0';
 
@@ -36,6 +36,17 @@ export const Shop: React.FC = memo(() => {
   };
 
   const [plantsWithBuyers, setPlantsWithBuyers] = useState([plants]) as any;
+
+  useEffect(() => {
+    web3.eth.getAccounts(async function (err, accounts) {
+      if (err != null) {
+        console.log(err);
+      }
+      if (accounts?.length > 0) {
+        await setAccount(accounts[0]);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     let i = 0;
@@ -59,8 +70,16 @@ export const Shop: React.FC = memo(() => {
   }, []);
 
   const renderPlants = useCallback(
-    a => a.map((plant: any) => <ListPlants key={plant.id} plant={plant} />),
-    []
+    a =>
+      a.map((plant: any) => (
+        <ListPlants
+          key={plant.id}
+          plant={plant}
+          contract={contract}
+          account={account}
+        />
+      )),
+    [account]
   );
 
   return (
