@@ -5,7 +5,10 @@ import Web3Modal from 'web3modal';
 
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import Collapse from '@material-ui/core/Collapse';
 import Grid from '@material-ui/core/Grid';
+
+import Alert from '@material-ui/lab/Alert';
 
 import plants from '../../database/plants.json';
 import { colors } from '../../theme';
@@ -77,10 +80,13 @@ export const Shop: React.FC = memo(() => {
           plant={plant}
           contract={contract}
           account={account}
+          setShowAlert={setShowAlert}
         />
       )),
     [account]
   );
+
+  const [showAlert, setShowAlert] = useState<boolean>(false);
 
   return (
     <>
@@ -94,11 +100,41 @@ export const Shop: React.FC = memo(() => {
         <p style={{ fontFamily: 'Arial', fontSize: 20, color: colors.primary }}>
           Plant Garden Shop
         </p>
-        <Button onClick={ethEnabled}> Login </Button>
+        {!account && <Button onClick={ethEnabled}> Login </Button>}
       </Box>
       <Grid container spacing={4}>
         {renderPlants(plantsWithBuyers)}
       </Grid>
+      <div
+        style={{
+          width: '80%',
+          bottom: 30,
+          position: 'fixed',
+          zIndex: 1,
+          verticalAlign: 'center',
+          left: '10%',
+        }}
+      >
+        <Collapse in={showAlert}>
+          <Alert
+            severity="error"
+            action={
+              <Button
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setShowAlert(false);
+                }}
+              >
+                Fechar
+              </Button>
+            }
+          >
+            Você não está conectado a carteira.
+          </Alert>
+        </Collapse>
+      </div>
     </>
   );
 });

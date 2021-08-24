@@ -22,17 +22,23 @@ export type ListPlantsProps = {
   plant: PlantsProps;
   contract: any;
   account: any;
+  setShowAlert: any;
 };
 
 export const ListPlants: React.FC<ListPlantsProps> = memo(
-  ({ plant, contract, account }) => {
+  ({ plant, contract, account, setShowAlert }) => {
     const buyPlant = useCallback(id => {
-      contract.methods
-        .buy(id)
-        .send({ from: account })
-        .then(function (tx) {
-          console.log('transaction', tx);
-        });
+      if (!account) {
+        setShowAlert(true);
+      } else {
+        console.log(account);
+        contract.methods
+          .buy(id)
+          .send({ from: account })
+          .then(function (tx) {
+            console.log('transaction', tx);
+          });
+      }
     }, []);
 
     return (

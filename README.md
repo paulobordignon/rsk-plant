@@ -1,4 +1,7 @@
-RSK PLANT IS A SMART CONTRACT AT RSK BLOCKCHAIN. MORE DETAILS:
-https://rsk.solange.dev/#/en/truffle-boxes/rsk-plant-box
+### RSK PLANT is a smart contract.
 
-IN THIS PROJECT, I CREATED THE NEW FRONTEND IN FOLDER PLANTGARDENSTORE.
+In this project I created the new frontend in folder plantgardenshop.
+
+You can get more details at:
+
+https://rsk.solange.dev/#/en/truffle-boxes/rsk-plant-box
