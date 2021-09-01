@@ -30,7 +30,8 @@
   },
   "homepage": "https://github.com/solangegueiros/rsk-plant-box#readme",
   "dependencies": {
-    "@truffle/hdwallet-provider": "^1.1.1"
+    "@truffle/hdwallet-provider": "^1.1.1",
+    "dotenv": "^10.0.0"
   },
   "devDependencies": {
     "cz-conventional-changelog": "3.3.0",

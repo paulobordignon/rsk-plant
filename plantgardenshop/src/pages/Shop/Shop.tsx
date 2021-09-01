@@ -21,13 +21,13 @@ export const Shop: React.FC = memo(() => {
 
   const [account, setAccount] = useState('');
 
-  const contractAdress = '0xB2f1A805F00fd9BCF7C7dE8a29C08fE3081595d0';
+  const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
   const abi = JSON.parse(
     '[{"constant": true, "inputs": [{"name": "","type": "uint256"}],"name": "buyers","outputs": [{"name": "","type": "address"}],"payable": false,"stateMutability": "view","type": "function"},{"constant": false,"inputs": [{"name": "plantId","type": "uint256"}],"name": "buy","outputs": [{"name": "","type": "uint256"}],"payable": false,"stateMutability": "nonpayable","type": "function"},{"constant": true,"inputs": [],"name": "getBuyers","outputs": [{"name": "","type": "address[16]"}],"payable": false,"stateMutability": "view","type": "function"}]'
   );
 
-  const contract = new web3.eth.Contract(abi, contractAdress);
+  const contract = new web3.eth.Contract(abi, contractAddress);
 
   const ethEnabled = async () => {
     if (window.ethereum) {

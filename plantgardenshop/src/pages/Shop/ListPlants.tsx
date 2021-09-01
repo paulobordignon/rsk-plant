@@ -9,21 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import { colors } from '../../theme';
-
-export type PlantsProps = {
-  id: number;
-  name: string;
-  picture: string;
-  description: string;
-  buyerPlant: string;
-};
-
-export type ListPlantsProps = {
-  plant: PlantsProps;
-  contract: any;
-  account: any;
-  setShowAlert: any;
-};
+import { ListPlantsProps } from './types';
 
 export const ListPlants: React.FC<ListPlantsProps> = memo(
   ({ plant, contract, account, setShowAlert }) => {

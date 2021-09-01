@@ -2,11 +2,12 @@
   // to customize your Truffle configuration!
 const fs = require('fs');
 const HDWalletProvider = require('@truffle/hdwallet-provider');
+require('dotenv').config();
 
-const mnemonic = fs.readFileSync(".secret").toString().trim();
+const mnemonic = process.env.SEED;
  if (!mnemonic || mnemonic.split(' ').length !== 12) {
-  // throw new Error('unable to retrieve mnemonic from .secret');
-  console.log('unable to retrieve mnemonic from .secret');
+  // throw new Error('unable to retrieve mnemonic from .env');
+  console.log('unable to retrieve mnemonic from .env');
 }
 
 //Update gas price Testnet
