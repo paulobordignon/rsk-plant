@@ -1,17 +1,15 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 
+import { PGAlert, PGHeader } from 'components';
 import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Collapse from '@material-ui/core/Collapse';
 import Grid from '@material-ui/core/Grid';
-
-import Alert from '@material-ui/lab/Alert';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
 import plants from '../../database/plants.json';
-import { colors } from '../../theme';
 import { ListPlants } from './ListPlants';
 
 export const Shop: React.FC = memo(() => {
@@ -90,51 +88,21 @@ export const Shop: React.FC = memo(() => {
 
   return (
     <>
-      <Box
-        flex="auto"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        padding={4}
-      >
-        <p style={{ fontFamily: 'Arial', fontSize: 20, color: colors.primary }}>
-          Plant Garden Shop
-        </p>
-        {!account && <Button onClick={ethEnabled}> Login </Button>}
+      <PGHeader
+        title="Plant Garden Shope"
+        loginOnClick={ethEnabled}
+        loginActive={account}
+      />
+      <Box paddingBottom={8}>
+        <Typography> Execuntado: {contractAddress} </Typography>
+        <Box>
+          <TextField label="Informe o smart Contract" />
+        </Box>
       </Box>
       <Grid container spacing={4}>
         {renderPlants(plantsWithBuyers)}
       </Grid>
-      <div
-        style={{
-          width: '80%',
-          bottom: 30,
-          position: 'fixed',
-          zIndex: 1,
-          verticalAlign: 'center',
-          left: '10%',
-        }}
-      >
-        <Collapse in={showAlert}>
-          <Alert
-            severity="error"
-            action={
-              <Button
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setShowAlert(false);
-                }}
-              >
-                Fechar
-              </Button>
-            }
-          >
-            Você não está conectado a carteira.
-          </Alert>
-        </Collapse>
-      </div>
+      <PGAlert showAlert={showAlert} setShowAlert={setShowAlert} />
     </>
   );
 });
