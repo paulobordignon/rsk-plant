@@ -12,10 +12,11 @@ import { colors } from '../../theme';
 import { ListPlantsProps } from './types';
 
 export const ListPlants: React.FC<ListPlantsProps> = memo(
-  ({ plant, contract, account, setShowAlert }) => {
+  ({ plant, contract, account, setShowAlert, setMessageType }) => {
     const buyPlant = useCallback(id => {
       if (!account) {
         setShowAlert(true);
+        setMessageType(0);
       } else {
         console.log(account);
         contract.methods

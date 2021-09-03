@@ -5,10 +5,16 @@ import Collapse from '@material-ui/core/Collapse';
 
 import Alert from '@material-ui/lab/Alert';
 
+enum messageType {
+  WALLET_ERROR,
+  CONTRACT_ERROR,
+}
+
 export const PGAlert: React.FC<{
   showAlert: boolean;
   setShowAlert: (boolean) => void;
-}> = memo(({ showAlert, setShowAlert }) => (
+  messageType: messageType;
+}> = memo(({ showAlert, setShowAlert, messageType }) => (
   <div
     style={{
       width: '80%',
@@ -35,7 +41,9 @@ export const PGAlert: React.FC<{
           </Button>
         }
       >
-        Você não está conectado a carteira.
+        {messageType === 0
+          ? 'Você não está conectado a carteira.'
+          : 'O endereço digitado é inválido'}
       </Alert>
     </Collapse>
   </div>

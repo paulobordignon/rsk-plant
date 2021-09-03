@@ -11,4 +11,5 @@ export type ListPlantsProps = {
   contract: any;
   account: any;
   setShowAlert: any;
+  setMessageType: any;
 };
