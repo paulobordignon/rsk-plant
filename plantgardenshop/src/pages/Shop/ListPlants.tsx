@@ -13,20 +13,22 @@ import { ListPlantsProps } from './types';
 
 export const ListPlants: React.FC<ListPlantsProps> = memo(
   ({ plant, contract, account, setShowAlert, setMessageType }) => {
-    const buyPlant = useCallback(id => {
-      if (!account) {
-        setShowAlert(true);
-        setMessageType(0);
-      } else {
-        console.log(account);
-        contract.methods
-          .buy(id)
-          .send({ from: account })
-          .then(function (tx) {
-            console.log('transaction', tx);
-          });
-      }
-    }, []);
+    const buyPlant = useCallback(
+      id => {
+        if (!account) {
+          setShowAlert(true);
+          setMessageType(0);
+        } else {
+          contract.methods
+            .buy(id)
+            .send({ from: account })
+            .then(function (tx) {
+              console.log('transaction', tx);
+            });
+        }
+      },
+      [contract.methods]
+    );
 
     return (
       <Grid item xs={12} sm={4}>

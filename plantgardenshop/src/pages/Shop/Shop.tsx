@@ -41,6 +41,7 @@ export const Shop: React.FC = memo(() => {
   };
 
   const [plantsWithBuyers, setPlantsWithBuyers] = useState([plants]) as any;
+  const [loadingNewPlants, setLoadingNewPlants] = useState<boolean>(false);
 
   useEffect(() => {
     web3.eth.getAccounts(async function (err, accounts) {
@@ -55,31 +56,31 @@ export const Shop: React.FC = memo(() => {
 
   useEffect(() => {
     let i = 0;
-    /* setPlantsWithBuyers('1'); */
     const itensCopy = plants as any;
-    console.log(contract.methods.getBuyers().call().then());
     contract.methods
       .getBuyers()
       .call()
       .then(async function (buyers: any) {
+        setLoadingNewPlants(true);
         await buyers.map((buyer: any) => {
-          const descriptor = Object.create(null);
-          descriptor.value = buyer;
-          Object.defineProperty(itensCopy[i], 'buyerPlant', descriptor);
+          Object.defineProperty(itensCopy[i], 'buyerPlant', {
+            value: buyer,
+            configurable: true,
+          });
           i++;
           return true;
         });
-        setPlantsWithBuyers(itensCopy);
+        await setPlantsWithBuyers(itensCopy);
+        setLoadingNewPlants(false);
       })
       .catch(function (err: any) {
         console.log('error:', err);
       });
-    console.log(plantsWithBuyers);
   }, [contractAddress]);
 
   const renderPlants = useCallback(
-    a =>
-      a.map((plant: any) => (
+    contract =>
+      plantsWithBuyers.map((plant: any) => (
         <ListPlants
           key={plant.id}
           plant={plant}
@@ -89,7 +90,7 @@ export const Shop: React.FC = memo(() => {
           setMessageType={setMessageType}
         />
       )),
-    [account, plantsWithBuyers]
+    [account, plantsWithBuyers, loadingNewPlants]
   );
 
   const [showAlert, setShowAlert] = useState<boolean>(false);
@@ -135,7 +136,7 @@ export const Shop: React.FC = memo(() => {
         </Box>
       </form>
       <Grid container spacing={4}>
-        {renderPlants(plantsWithBuyers)}
+        {renderPlants(contract)}
       </Grid>
       <PGAlert
         showAlert={showAlert}
