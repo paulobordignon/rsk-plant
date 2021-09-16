@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import WalletConnectProvider from '@walletconnect/web3-provider';
 import { PGAlert, PGHeader } from 'components';
 import Web3 from 'web3';
 import Web3Modal from 'web3modal';
@@ -15,9 +16,44 @@ import plants from '../../database/plants.json';
 import { ListPlants } from './ListPlants';
 
 export const Shop: React.FC = memo(() => {
-  const Web3 = require('web3');
+  const providerOptions = {
+    walletconnect: {
+      package: WalletConnectProvider,
+      options: {
+        infuraId: 'INFURA_ID',
+      },
+    },
+  };
 
-  const web3 = new Web3(window.web3.currentProvider);
+  const web3Modal = new Web3Modal({
+    network: 'testnet',
+    cacheProvider: false,
+    providerOptions,
+    theme: 'dark',
+  });
+
+  const provider = window.web3.currentProvider;
+
+  const handleLogin = async () => {
+    console.log('entrou');
+    await web3Modal
+      .connect()
+      .then(() => {
+        web3.eth.getAccounts().then(res => {
+          if (res?.length > 0) {
+            setAccount(res[0]);
+          }
+        });
+        return true;
+      })
+      .catch(() => {
+        console.log('erro');
+        return false;
+      });
+    return true;
+  };
+
+  const web3 = new Web3(provider);
 
   const [account, setAccount] = useState('');
 
@@ -30,15 +66,6 @@ export const Shop: React.FC = memo(() => {
   );
 
   const contract = new web3.eth.Contract(abi, contractAddress);
-
-  const ethEnabled = async () => {
-    if (window.ethereum) {
-      await window.ethereum.send('eth_requestAccounts');
-      window.web3 = new Web3(window.ethereum);
-      return true;
-    }
-    return false;
-  };
 
   const [plantsWithBuyers, setPlantsWithBuyers] = useState([plants]) as any;
   const [loadingNewPlants, setLoadingNewPlants] = useState<boolean>(false);
@@ -111,7 +138,7 @@ export const Shop: React.FC = memo(() => {
     <>
       <PGHeader
         title="Plant Garden Shop"
-        loginOnClick={ethEnabled}
+        loginOnClick={handleLogin}
         loginActive={account}
       />
       <form onSubmit={handleSubmit(onSubmit)}>
