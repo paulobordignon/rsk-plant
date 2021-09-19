@@ -20,13 +20,16 @@ export const Shop: React.FC = memo(() => {
     walletconnect: {
       package: WalletConnectProvider,
       options: {
-        infuraId: 'INFURA_ID',
+        infuraId: '27e484dcd9e3efcfd25a83a78777cdf1',
+        chainId: 31,
+        rpc: {
+          31: 'https://public-node.testnet.rsk.co',
+        },
       },
     },
   };
 
   const web3Modal = new Web3Modal({
-    network: 'testnet',
     cacheProvider: false,
     providerOptions,
     theme: 'dark',
@@ -35,15 +38,18 @@ export const Shop: React.FC = memo(() => {
   const provider = window.web3.currentProvider;
 
   const handleLogin = async () => {
-    console.log('entrou');
     await web3Modal
       .connect()
-      .then(() => {
-        web3.eth.getAccounts().then(res => {
-          if (res?.length > 0) {
-            setAccount(res[0]);
-          }
-        });
+      .then(res => {
+        if (res?.accounts?.length > 0) {
+          setAccount(res.accounts[0]);
+        } else {
+          web3.eth.getAccounts().then(res => {
+            if (res?.length > 0) {
+              setAccount(res[0]);
+            }
+          });
+        }
         return true;
       })
       .catch(() => {
