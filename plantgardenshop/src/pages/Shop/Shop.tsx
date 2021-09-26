@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { PGAlert, PGHeader } from 'components';
+import { i18n } from 'translate/i18n';
 import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 
@@ -149,11 +150,13 @@ export const Shop: React.FC = memo(() => {
       />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box paddingBottom={8}>
-          <Typography> Execuntado: {contractAddress} </Typography>
+          <Typography>
+            {i18n.t('texts.running')}: {contractAddress}
+          </Typography>
           <Grid container spacing={4}>
             <Grid item xs={12} sm={4}>
               <TextField
-                label="Informe o smart Contract"
+                label={i18n.t('texts.information')}
                 {...register('contractAddress')}
                 fullWidth
               />
@@ -161,7 +164,7 @@ export const Shop: React.FC = memo(() => {
             <Grid item>
               <Box py={2}>
                 <Button variant="contained" color="primary" type="submit">
-                  Consultar
+                  {i18n.t('buttons.consult')}
                 </Button>
               </Box>
             </Grid>

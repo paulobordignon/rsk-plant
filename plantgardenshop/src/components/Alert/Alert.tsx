@@ -1,5 +1,7 @@
 import React, { memo } from 'react';
 
+import { i18n } from 'translate/i18n';
+
 import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
 
@@ -42,8 +44,8 @@ export const PGAlert: React.FC<{
         }
       >
         {messageType === 0
-          ? 'Você não está conectado a carteira.'
-          : 'O endereço digitado é inválido'}
+          ? i18n.t('alerts.walletError')
+          : i18n.t('alerts.contractError')}
       </Alert>
     </Collapse>
   </div>

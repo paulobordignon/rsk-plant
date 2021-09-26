@@ -1,5 +1,7 @@
 import React, { memo, useCallback } from 'react';
 
+import { i18n } from 'translate/i18n';
+
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -60,7 +62,7 @@ export const ListPlants: React.FC<ListPlantsProps> = memo(
                   buyPlant(plant.id);
                 }}
               >
-                BUY
+                {i18n.t('buttons.buy')}
               </Button>
             ) : (
               <Typography style={{ color: colors.error, padding: 10 }}>
