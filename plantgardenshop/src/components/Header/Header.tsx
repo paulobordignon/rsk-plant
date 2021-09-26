@@ -5,6 +5,7 @@ import { colors } from 'theme';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 
+import { MultiLanguage } from '../MultiLanguage';
 import { PGHeaderPros } from './types';
 
 export const PGHeader: React.FC<PGHeaderPros> = memo(
@@ -20,6 +21,7 @@ export const PGHeader: React.FC<PGHeaderPros> = memo(
         {title}
       </p>
       {!loginActive && <Button onClick={loginOnClick}> Login </Button>}
+      <MultiLanguage />
     </Box>
   )
 );
